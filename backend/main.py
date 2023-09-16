@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 import cohere
 from typing import List
+from pydantic import BaseModel
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 app = FastAPI()
-co = cohere.Client("")
+co = cohere.Client(os.getenv("secret_key"))
 
 
 @app.get("/")
@@ -18,12 +24,29 @@ async def cohere_chat():
     )
     return {"message": response}
 
-@app.get("/categorize")
-async def categorize(categories: List[str], note: str):
+
+class Category(BaseModel):
+    categories: List[str]
+    note: str
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "categories": ["Family", "School", "Job", "Todo"],
+                    "note": "Apply to Google",
+                }
+            ]
+        }
+    }
+
+
+@app.post("/categorize")
+async def categorize(category: Category):
     BASE_PROMPT = f"""
-    We have the following categories: {categories.split()}. Which of these categories would you classify the following message under: {note}
-    """
-    response = co.generate(
-       prompt=BASE_PROMPT, 
-    )
-    return {"message": response}
+    We have the following categories: {", ".join(category.categories)}. 
+    Please return only one of the categories listed before. Trim spaces.
+    Which of these categories would you classify the following message under: {category.note}"""
+    response = co.generate(prompt=BASE_PROMPT)
+    return_category = response.generations[0].text.strip()
+    return {"message": return_category}
