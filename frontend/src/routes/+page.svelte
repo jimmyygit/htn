@@ -1,5 +1,37 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
-<h1 class="text-3xl font-bold underline text-red-500">Hello world!</h1>
-<a href="/route1" class="underline">click to route 1</a>
+<br>
+<script lang="ts">
+    import Button from '@smui/button'
+    import Textfield from '@smui/textfield';
+    
+    
+  
+    let valueA = '';
+</script>
+
+
+<div class="columns margins">
+    <div>
+      <Textfield
+        style="width: 500px"
+        class="shaped-filled"
+        variant="filled"
+        bind:value={valueA}
+        label="Note"
+      >
+      </Textfield>
+
+      <Button on:click={() => alert(valueA)} color = "primary"> Add Note </Button>
+
+    </div>
+    
+  </div>
+  
+  
+  
+  <style>
+    * :global(.shaped-filled) {
+      border-radius: 16px 16px 0 0;
+    }
+  </style>
+  
