@@ -33,7 +33,7 @@ class Category(BaseModel):
         "json_schema_extra": {
             "examples": [
                 {
-                    "categories": ["Family", "School", "Job", "Todo"],
+                    "categories": ["Family", "School", "Career", "To-do"],
                     "note": "Apply to Google",
                 }
             ]
@@ -44,9 +44,9 @@ class Category(BaseModel):
 @app.post("/categorize")
 async def categorize(category: Category):
     BASE_PROMPT = f"""
-    We have the following categories: {", ".join(category.categories)}. 
+    We have the following categories: [{", ".join(category.categories)}] for to-do list item tasks. 
     Please return only one of the categories listed before. Trim spaces.
-    Which of these categories would you classify the following message under: {category.note}"""
+    Which one of the above categories would best fit this item: {category.note}"""
     response = co.generate(prompt=BASE_PROMPT)
     return_category = response.generations[0].text.strip()
     return {"message": return_category}
