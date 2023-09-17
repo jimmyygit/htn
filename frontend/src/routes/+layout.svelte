@@ -1,12 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import ImagePath from '$lib/components/logo.png';
-	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
-	import IconButton from '@smui/icon-button';
-
-	let imagePath = '$lib/components/logo.png';
-	let prominent = false;
-	let dense = false;
 </script>
 
 <div class="h-full flex flex-col">

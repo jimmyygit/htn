@@ -1,9 +1,10 @@
 <script lang="ts">
-	import Fab, { Icon } from '@smui/fab';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-	import IconButton from '@smui/icon-button';
+	import IconButton, { Icon } from '@smui/icon-button';
+	import Button from '@smui/button';
+	import { Input } from '@smui/textfield';
 
 	let panel1Open = false;
 	let panel2Open = false;
@@ -17,9 +18,12 @@
 	let careerContent = ['Test 9', 'test 10'];
 	let ideasContent = ['Test 11', 'test 12'];
 	let forLaterContent = ['Test 13', 'test 14'];
+
+	let note = '';
+	function submitNote() {}
 </script>
 
-<div class="relative h-full">
+<div class="flex flex-col relative h-full">
 	<div>
 		<TabBar tabs={['Tasks', 'Goals', 'Notes']} let:tab bind:active>
 			<Tab {tab}>
@@ -27,7 +31,6 @@
 			</Tab>
 		</TabBar>
 	</div>
-	<br />
 	<div class="accordion-container">
 		<Accordion>
 			{#if active === 'Tasks'}
@@ -151,11 +154,17 @@
 		</Accordion>
 	</div>
 
-	<Fab
-		on:click={() => console.log('create item')}
-		class="flex absolute left-1/2 -translate-x-1/2 bottom-4"
-		color="primary"
-	>
-		<Icon class="material-icons">add</Icon>
-	</Fab>
+	<div class="flex-1" />
+
+	<div class="p-4 flex items-baseline gap-2">
+		<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
+		<Button disabled={note.length === 0} on:click={submitNote}>Submit</Button>
+	</div>
 </div>
+
+<style>
+	* :global(.solo-input::placeholder) {
+		color: var(--mdc-theme-on-surface, #000);
+		opacity: 0.6;
+	}
+</style>
