@@ -138,8 +138,10 @@
 			</div>
 		{/if}
 
-		<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
-		<Button disabled={note.length === 0} on:click={submitNote}>Submit</Button>
+		<form on:submit={submitNote} class="w-full flex justify-end">
+			<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
+			<Button disabled={note.length === 0} type="submit">Submit</Button>
+		</form>
 	</div>
 </div>
 
