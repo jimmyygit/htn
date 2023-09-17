@@ -32,8 +32,12 @@ export let activeTab: string;
 </IconButton>
 </Header>
 <Content>
-{#if activeTab === "Notes"}
-<List
+	{#if content.length == 0}
+	<div class="text-sm text-gray-500"> No sub tasks </div>
+{/if}
+
+	{#if activeTab === "Notes"}
+	<List
 class="demo-list"
 checkList
 
