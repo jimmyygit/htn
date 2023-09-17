@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
-	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-	import IconButton, { Icon } from '@smui/icon-button';
+	import Accordion from '@smui-extra/accordion';
 	import Button from '@smui/button';
 	import { Input } from '@smui/textfield';
 	import SubcategoryPanel from '$lib/components/SubcategoryPanel.svelte';
@@ -30,7 +29,34 @@
 	let activeTab = tabs[0];
 
 	let note = '';
-	function submitNote() {}
+	function submitNote() {
+		const condensedCategories = [];
+		for (const category of Object.keys(categories)) {
+			for (const subcategory of Object.keys(categories[category])) {
+				condensedCategories.push(`${subcategory}_${category}`);
+			}
+		}
+
+		// Perform API request and get category
+		const result = 'Tasks_Homework';
+
+		// Split result
+		const [categoryResult, subcategoryResult] = result.split('_');
+
+		// Animate adding note
+		activeTab = categoryResult;
+
+		setTimeout(() => {
+			categories[categoryResult][subcategoryResult].open = true;
+			setTimeout(() => {
+				categories[categoryResult][subcategoryResult].content = [
+					...categories[categoryResult][subcategoryResult].content,
+					note
+				];
+				note = '';
+			}, 300);
+		}, 100);
+	}
 </script>
 
 <div class="flex flex-col relative h-full">
