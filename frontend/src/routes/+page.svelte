@@ -24,8 +24,11 @@
 </script>
 
 <div class="flex flex-col relative h-full">
-	<div>
-		<TabBar tabs={['Tasks', 'Goals', 'Notes']} let:tab bind:active>
+	<div class="drop-shadow-md mb-2">
+		<div class="bg-white py-2 w-full flex items-center justify-center">
+			<img src="/logo.png" alt="Logo" style="height: 50px" />
+		</div>
+		<TabBar class="bg-white" tabs={['Tasks', 'Goals', 'Notes']} let:tab bind:active>
 			<Tab {tab}>
 				<Label>{tab}</Label>
 			</Tab>
@@ -156,7 +159,7 @@
 
 	<div class="flex-1" />
 
-	<div class="p-4 flex items-baseline gap-2">
+	<div class="p-4 flex items-baseline gap-2 bg-gray-100">
 		<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
 		<Button disabled={note.length === 0} on:click={submitNote}>Submit</Button>
 	</div>
