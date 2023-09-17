@@ -16,7 +16,8 @@
 		Tasks: {
 			Shopping: { content: ['eggs', 'tomatoes'], open: false },
 			Homework: { content: ['eggs', 'tomatoes'], open: false },
-			General: { content: ['eggs', 'tomatoes'], open: false }
+			Friends_and_Family: { content: ['eggs', 'tomatoes'], open: false },
+			Other: { content: ['eggs', 'tomatoes'], open: false }
 		},
 		Goals: {
 			Personal: { content: ['eggs', 'tomatoes'], open: false },
@@ -24,7 +25,7 @@
 		},
 		Notes: {
 			Ideas: { content: ['eggs', 'tomatoes'], open: false },
-			'For later': { content: ['eggs', 'tomatoes'], open: false }
+			For_later: { content: ['eggs', 'tomatoes'], open: false }
 		}
 	};
 	let tabs = Object.keys(categories);
@@ -48,54 +49,59 @@
 		const condensedCategories = [];
 		for (const category of Object.keys(categories)) {
 			for (const subcategory of Object.keys(categories[category])) {
-				condensedCategories.push(`${subcategory}_${category}`);
+				condensedCategories.push(`${subcategory}+${category}`);
 			}
 		}
 
 		noteProperties.set({ ...$noteProperties, topOffset: -70, leftPercOffset: 50, opacity: 1 });
 
 		// Perform API request and get category
-		const result = 'Personal_Goals';
-		await sleep(1000);
-		// console.log('submitting note...');
-		// const result = await fetch('https://htn.onrender.com/categorize', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	body: JSON.stringify({
-		// 		categories: condensedCategories,
-		// 		noteCopy
-		// 	})
-		// }).then((res) => {
-		// 	console.log('res!', res);
-		// 	return res.json();
-		// });
+		// const result = 'Personal_Goals';
+		console.log('submitting note...');
+		const result = await fetch('https://htn.onrender.com/categorize', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				categories: condensedCategories,
+				note: noteCopy
+			})
+		})
+			.then((res) => {
+				return res.json();
+			})
+			.then(async (data) => {
+				console.log(JSON.stringify(data));
+				console.log(data);
+				await sleep(1000);
+				console.log('finish sleeping from return');
 
-		// console.log(result);
-		// return;
+				// Split result
+				const [subcategoryResult, categoryResult] = data.category.split('+');
 
-		// Split result
-		const [subcategoryResult, categoryResult] = result.split('_');
+				console.log(
+					`putting into '${categoryResult} ${subcategoryResult}' with suggest: ${data.suggestion}`
+				);
+				// Animate adding note
+				activeTab = categoryResult;
+				await sleep(100);
 
-		// Animate adding note
-		activeTab = categoryResult;
-		await sleep(100);
+				noteProperties.set({ ...$noteProperties, topOffset: -350 });
 
-		noteProperties.set({ ...$noteProperties, topOffset: -350 });
+				categories[categoryResult][subcategoryResult].open = true;
+				await sleep(300);
 
-		categories[categoryResult][subcategoryResult].open = true;
-		await sleep(300);
+				categories[categoryResult][subcategoryResult].content = [
+					...categories[categoryResult][subcategoryResult].content,
+					noteCopy
+				];
 
-		categories[categoryResult][subcategoryResult].content = [
-			...categories[categoryResult][subcategoryResult].content,
-			noteCopy
-		];
+				noteProperties.set({ ...$noteProperties, opacity: 0 });
+				await sleep(400);
 
-		noteProperties.set({ ...$noteProperties, opacity: 0 });
-		await sleep(400);
-
-		noteProperties.set({ leftPercOffset: 0, topOffset: 0, scale: 1, opacity: 0 });
+				noteProperties.set({ leftPercOffset: 0, topOffset: 0, scale: 1, opacity: 0 });
+			});
 	}
 </script>
 
@@ -111,10 +117,10 @@
 		</TabBar>
 	</div>
 	<div class="accordion-container">
-		<Accordion>
+		<Accordion multiple>
 			{#each Object.keys(categories[activeTab]) as subcategoryName}
 				<SubcategoryPanel
-					label={subcategoryName}
+					label={subcategoryName.replaceAll('_', ' ')}
 					content={categories[activeTab][subcategoryName].content}
 					open={categories[activeTab][subcategoryName].open}
 				/>
