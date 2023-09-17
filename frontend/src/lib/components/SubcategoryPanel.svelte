@@ -2,14 +2,19 @@
 import { Content, Header, Panel } from '@smui-extra/accordion';
 import IconButton, { Icon } from '@smui/icon-button';
 import List, { Item, Meta, Label } from '@smui/list';
-// import Checkbox from '@smui/checkbox';
-// import { createEventDispatcher } from 'svelte';
+import Checkbox from '@smui/checkbox';
+import { createEventDispatcher } from 'svelte';
+import Dialog, { Title, Content as DiaContent, Actions } from '@smui/dialog';
+
 
 // const dispatch = createEventDispatcher()
 
 export let label: string;
 export let open: boolean = false;
 export let content: any[] = [];
+export let suggestion: string;
+let modalOpen = false;
+
 
 export let activeTab: string;
 // interface CheckBoxStates {
@@ -36,37 +41,25 @@ export let activeTab: string;
 	<div class="text-sm text-gray-500"> No sub tasks </div>
 {/if}
 
-	{#if activeTab === "Notes"}
-	<List
-class="demo-list"
-checkList
+<!-- <Dialog
+  bind:modalOpen
+  aria-labelledby="simple-title"
+  aria-describedby="simple-content"
+>
+  <Title id="simple-title">Suggestion</Title>
+  <DiaContent id="simple-content">Super awesome dialog body text?</DiaContent>
+</Dialog> -->
 
-> {#each content as item}
-<Item>
-	<Label>{item}</Label>
-	<!-- <Meta>
-		<button>
-			<span class="material-icons">delete</span>
-		</button>
-
-	</Meta> -->
-	
-	
-</Item>
-{/each}
-</List>
-{:else}
-<List class="demo-list" checkList> 
-{#each content as item}
-<Item>
-	<Label>{item}</Label>
-	<!-- <Meta>
-		<Checkbox bind:checked={checkBoxStates[item]} on:change(e)={handleClick} />
-		</Meta> -->
-</Item>
-{/each}
-</List>
-{/if}
+<List>
+	{#each content as item}
+	<Item class="flex justify-between">
+		<Label>{item}</Label>
+			<button on:click={() => (modalOpen = true)}>
+				<span class="material-icons">settings_suggest</span>
+			</button>
+	</Item>
+	{/each}
+	</List>
 </Content>
 </Panel>
 
