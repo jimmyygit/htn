@@ -32,22 +32,22 @@
 	let activeTab = tabs[0];
 	let note = '';
 
-//   interface CheckBoxStates {
-//     [key: string]: boolean;
-// }
+	//   interface CheckBoxStates {
+	//     [key: string]: boolean;
+	// }
 
-// const checkBoxStates: CheckBoxStates = {};
+	// const checkBoxStates: CheckBoxStates = {};
 
-// Object.entries(categories).forEach(([categoryName, subcategories]) => {
-//     Object.entries(subcategories).forEach(([subcategoryName, subcategory]) => {
-//         subcategory.content.forEach(item => {
-//             const uniqueKey = `${categoryName}_${subcategoryName}_${item}`;
-//             checkBoxStates[uniqueKey] = false;
-//         });
-//     });
-// });
+	// Object.entries(categories).forEach(([categoryName, subcategories]) => {
+	//     Object.entries(subcategories).forEach(([subcategoryName, subcategory]) => {
+	//         subcategory.content.forEach(item => {
+	//             const uniqueKey = `${categoryName}_${subcategoryName}_${item}`;
+	//             checkBoxStates[uniqueKey] = false;
+	//         });
+	//     });
+	// });
 
-/*function handleCheckChange(e: CustomEvent) {
+	/*function handleCheckChange(e: CustomEvent) {
     const isChecked = (e.target as HTMLInputElement).checked;
     const category = e.detail.category;
     const subcategory = e.detail.subcategory;
@@ -106,9 +106,7 @@
 				// Split result
 				const [subcategoryResult, categoryResult] = data.category.split('+');
 
-				console.log(
-					`putting into '${categoryResult} ${subcategoryResult}' with suggest: ${data.suggestion}`
-				);
+				console.log(`putting into '${categoryResult} ${subcategoryResult}'`);
 				// Animate adding note
 				activeTab = categoryResult;
 				await sleep(100);
@@ -149,13 +147,8 @@
 					label={subcategoryName.replaceAll('_', ' ')}
 					content={categories[activeTab][subcategoryName].content}
 					open={categories[activeTab][subcategoryName].open}
-          activeTab={activeTab}
-          checkBoxStates={checkBoxStates}
-           
-     
-        
-          on:itemChanged={handleCheckChange} />
-				
+					{activeTab}
+				/>
 			{/each}
 		</Accordion>
 	</div>
