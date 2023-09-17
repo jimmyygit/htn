@@ -67,7 +67,7 @@ class Category(BaseModel):
 async def categorize(category: Category):
     BASE_PROMPT = f"""We have the following categories: {", ".join(category.categories)}. Which of these categories would you classify the following message under: {category.note}."""
 
-    response = co.generate(model="command-light", prompt=BASE_PROMPT)
+    response = co.generate(model="command", prompt=BASE_PROMPT)
     return_category = response.generations[0].text.strip()
     return {"category": return_category}
 
