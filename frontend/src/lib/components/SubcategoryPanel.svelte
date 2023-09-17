@@ -85,7 +85,7 @@
 				class="z-30 max-w-full absolute left-0 top-1/2 -translate-y-1/2"
 			>
 				<div
-					class="mx-2 py-4 px-2 rounded-xl text-white bg-[#e499ff] whitespace-nowrap text-ellipsis overflow-hidden"
+					class="mx-2 py-4 px-2 rounded-xl text-white bg-[#e499ff]"
 				>
 					{suggestion}
 				</div>
