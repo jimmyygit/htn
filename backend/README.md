@@ -6,3 +6,5 @@ Windows: `venv\Scripts\activate`
 
 Stop env: `deactivate`
 
+
+Start server: `uvicorn main:app --reload`
