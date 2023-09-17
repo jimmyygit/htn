@@ -1,37 +1,27 @@
-
-<br>
 <script lang="ts">
-    import Button from '@smui/button'
-    import Textfield from '@smui/textfield';
-    
-    
-  
-    let valueA = '';
+	import Button from '@smui/button';
+	import Textfield from '@smui/textfield';
+	import Fab, { Icon } from '@smui/fab';
+
+	let valueA = '';
 </script>
 
+<div class="relative h-full">
+	<Textfield
+		style="width: 500px"
+		class="shaped-filled"
+		variant="filled"
+		bind:value={valueA}
+		label="Note"
+	/>
 
-<div class="columns margins">
-    <div>
-      <Textfield
-        style="width: 500px"
-        class="shaped-filled"
-        variant="filled"
-        bind:value={valueA}
-        label="Note"
-      >
-      </Textfield>
+	<Button on:click={() => alert(valueA)} color="primary">Add Note</Button>
 
-      <Button on:click={() => alert(valueA)} color = "primary"> Add Note </Button>
-
-    </div>
-    
-  </div>
-  
-  
-  
-  <style>
-    * :global(.shaped-filled) {
-      border-radius: 16px 16px 0 0;
-    }
-  </style>
-  
+	<Fab
+		on:click={() => console.log('create item')}
+		class="flex absolute left-1/2 -translate-x-1/2 bottom-4"
+		color="primary"
+	>
+		<Icon class="material-icons">add</Icon>
+	</Fab>
+</div>
