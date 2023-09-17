@@ -14,18 +14,18 @@
 
 	let categories: { [key: string]: Subcategory } = {
 		Tasks: {
-			Shopping: { content: ['eggs', 'tomatoes'], open: false },
-			Homework: { content: ['eggs', 'tomatoes'], open: false },
-			Friends_and_Family: { content: ['eggs', 'tomatoes'], open: false },
-			Other: { content: ['eggs', 'tomatoes'], open: false }
+			Shopping: { content: ['Eggs', 'Tomatoes'], open: false },
+			Homework: { content: ['Math137 Assignment 1'], open: false },
+			Friends_and_Family: { content: ['Call Mom'], open: false },
+			Other: { content: [], open: false }
 		},
 		Goals: {
-			Personal: { content: ['seven', 'eigh'], open: false },
-			Career: { content: ['nine', '10'], open: false }
+			Personal: { content: [], open: false },
+			Career: { content: ['Apply to Google'], open: false }
 		},
 		Notes: {
-			Ideas: { content: ['11', '12'], open: false },
-			'For later': { content: ['13', '14'], open: false }
+			Ideas: { content: [], open: false },
+			For_Later: { content: ['Book appointment for next month'], open: false }
 		}
 	};
 	let tabs = Object.keys(categories);
