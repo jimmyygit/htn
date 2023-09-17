@@ -5,6 +5,8 @@
 	import Button from '@smui/button';
 	import { Input } from '@smui/textfield';
 	import SubcategoryPanel from '$lib/components/SubcategoryPanel.svelte';
+	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
 
 	interface Subcategory {
 		[key: string]: { content: string[]; open: boolean };
@@ -29,7 +31,8 @@
 	let activeTab = tabs[0];
 
 	let note = '';
-	function submitNote() {
+	const noteOffset = tweened({ x: 0, y: 0, scale: 1 }, { duration: 400, easing: cubicOut });
+	async function submitNote() {
 		const condensedCategories = [];
 		for (const category of Object.keys(categories)) {
 			for (const subcategory of Object.keys(categories[category])) {
@@ -38,10 +41,27 @@
 		}
 
 		// Perform API request and get category
-		const result = 'Tasks_Homework';
+		const result = 'Personal_Goals';
+		// console.log('submitting note...');
+		// const result = await fetch('https://htn.onrender.com/categorize', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json'
+		// 	},
+		// 	body: JSON.stringify({
+		// 		categories: condensedCategories,
+		// 		note
+		// 	})
+		// }).then((res) => {
+		// 	console.log('res!', res);
+		// 	return res.json();
+		// });
+
+		// console.log(result);
+		// return;
 
 		// Split result
-		const [categoryResult, subcategoryResult] = result.split('_');
+		const [subcategoryResult, categoryResult] = result.split('_');
 
 		// Animate adding note
 		activeTab = categoryResult;
@@ -84,7 +104,15 @@
 
 	<div class="flex-1" />
 
-	<div class="p-4 flex items-baseline gap-2 bg-gray-100">
+	<div class="relative p-4 flex items-baseline gap-2 bg-gray-100">
+		<!-- <div class="max-w-full absolute left-0 top-1/2 -translate-y-1/2">
+			<div
+				class="mx-2 py-4 px-2 rounded-xl text-white bg-[#3499ff] whitespace-nowrap text-ellipsis overflow-hidden"
+			>
+				{note}
+			</div>
+		</div> -->
+
 		<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
 		<Button disabled={note.length === 0} on:click={submitNote}>Submit</Button>
 	</div>
