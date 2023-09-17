@@ -42,6 +42,8 @@ async def cohere_chat():
     )
     return {"message": response}
 
+class Suggestion(BaseModel):
+    prompt:str
 
 class Category(BaseModel):
     categories: List[str]
@@ -62,6 +64,15 @@ class Category(BaseModel):
 @app.post("/categorize")
 async def categorize(category: Category):
     BASE_PROMPT = f"""We have the following categories: {", ".join(category.categories)}. Which of these categories would you classify the following message under: {category.note}."""
+
     response = co.generate(model="command", prompt=BASE_PROMPT)
     return_category = response.generations[0].text.strip()
     return {"category": return_category}
+
+@app.post("/suggestion")
+async def categorize(category: Suggestion):
+    SUGG_PROMPT = f""" Based on this note: {category.note}, provide 1 very brief and very funny suggestion on how to accomplish the aforementioned message.
+    Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes and not contain any violence."""
+    suggestion = co.generate(model="command", prompt=SUGG_PROMPT)
+    return_suggestion = suggestion.generations[0].text.strip()
+    return {"suggestion": return_suggestion}
