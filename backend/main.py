@@ -75,7 +75,7 @@ async def categorize(category: Category):
 @app.post("/suggestion")
 async def suggestion(prompt: Suggestion):
     SUGG_PROMPT = f""" Based on this note: {prompt.note}, provide 1 very brief and very funny suggestion on how to accomplish the aforementioned message.
-    Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes and not contain any violence. The suggestion must be one complete sentence."""
-    suggestion = co.generate(model="command", prompt=SUGG_PROMPT)
+    Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes and not contain any violence. The suggestion must be one complete sentence and make sure you finish the sentence: do not end the sentence."""
+    suggestion = co.generate(max_tokens = 100, model="command", prompt=SUGG_PROMPT)
     return_suggestion = suggestion.generations[0].text.strip()
     return {"suggestion": return_suggestion}
