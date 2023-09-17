@@ -4,12 +4,28 @@ from typing import List
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
 
 load_dotenv()
 
 
 app = FastAPI()
 co = cohere.Client(os.getenv("secret_key"))
+
+origins = [
+    "http://localhost:5173",
+    "http://localhost:4173",
+    "https://jotter-y4es.onrender.com",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
