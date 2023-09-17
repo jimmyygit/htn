@@ -61,13 +61,11 @@ class Category(BaseModel):
 
 @app.post("/categorize")
 async def categorize(category: Category):
-    BASE_PROMPT = f"""
-    We have the following categories: {", ".join(category.categories)}. Which of these categories would you classify the following message under: {category.note}.
+    BASE_PROMPT = f"""We have the following categories: {", ".join(category.categories)}. Which of these categories would you classify the following message under: {category.note}.
     WITH THE CATEGORY NOW DECIDED, assign it to a variable called the_category. 
     Then, provide 1 very brief and very funny suggestion on how to accomplish the aforementioned message.
     Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes and not contain any violence. Assign this suggestion to a variable called the_suggestion.
-    The format of your answer should be: `the_category|the_suggestion`. Keep the overall answer VERY short, and do NOT explain your answer. MAKE SURE the_suggestion is a complete sentence and don't end the_suggestion with a preposition or a verb or the word 'a'.
-    """
+    The format of your answer should be: `the_category|the_suggestion`. Keep the overall answer VERY short, and do NOT explain your answer. MAKE SURE the_suggestion is a complete sentence and don't end a suggestion with a preposition or a verb or the word 'a'."""
     response = co.generate(model="command", prompt=BASE_PROMPT)
     return_values = response.generations[0].text.strip().split("|")
     return_category = return_values[0]
