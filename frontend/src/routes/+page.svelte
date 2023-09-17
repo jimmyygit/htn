@@ -31,7 +31,6 @@
 	let tabs = Object.keys(categories);
 	let activeTab = tabs[0];
 	let note = '';
-	function submitNote() {}
 
   interface CheckBoxStates {
     [key: string]: boolean;
