@@ -17,6 +17,10 @@
 	let careerContent = ['Test 9', 'test 10'];
 	let ideasContent = ['Test 11', 'test 12'];
 	let forLaterContent = ['Test 13', 'test 14'];
+
+  import List, { Item, Separator, Text } from '@smui/list';
+ 
+
 </script>
 
 <div class="relative h-full">
@@ -40,11 +44,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each shoppingContent as shop}
-								<li>{shop}</li>
-							{/each}
-						</ul>
+            <List class="demo-list">
+              <Separator />
+              {#each shoppingContent as shop}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{shop}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 				<Panel bind:open={panel2Open}>
@@ -56,11 +62,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each homeworkContent as homework}
-								<li>{homework}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each homeworkContent as homework}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{homework}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 				<Panel bind:open={panel3Open}>
@@ -72,11 +80,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each generalContent as general}
-								<li>{general}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each generalContent as general}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{general}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 			{/if}
@@ -90,11 +100,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each personalContent as personal}
-								<li>{personal}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each personalContent as personal}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{personal}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 				<Panel bind:open={panel2Open}>
@@ -106,11 +118,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each careerContent as career}
-								<li>{career}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each careerContent as career}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{career}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 			{/if}
@@ -124,11 +138,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each ideasContent as ideas}
-								<li>{ideas}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each ideasContent as ideas}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{ideas}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 				<Panel bind:open={panel2Open}>
@@ -140,11 +156,13 @@
 						</IconButton>
 					</Header>
 					<Content>
-						<ul>
-							{#each forLaterContent as forLater}
-								<li>{forLater}</li>
-							{/each}
-						</ul>
+						<List class="demo-list">
+              <Separator />
+              {#each forLaterContent as forLater}
+                <Item on:SMUI:action={() => window.location.href = '/route1'}><Text>{forLater}</Text></Item>
+                <Separator />
+              {/each}
+            </List>
 					</Content>
 				</Panel>
 			{/if}
