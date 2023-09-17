@@ -13,24 +13,50 @@
 
 	let categories: { [key: string]: Subcategory } = {
 		Tasks: {
-			Shopping: { content: ['eggs', 'tomatoes'], open: false },
-			Homework: { content: ['eggs', 'tomatoes'], open: false },
-			General: { content: ['eggs', 'tomatoes'], open: false }
+			Shopping: { content: ['ones', 'two'], open: false },
+			Homework: { content: ['three', 'four'], open: false },
+			General: { content: ['five', 'six'], open: false }
 		},
 		Goals: {
-			Personal: { content: ['eggs', 'tomatoes'], open: false },
-			Career: { content: ['eggs', 'tomatoes'], open: false }
+			Personal: { content: ['seven', 'eigh'], open: false },
+			Career: { content: ['nine', '10'], open: false }
 		},
 		Notes: {
-			Ideas: { content: ['eggs', 'tomatoes'], open: false },
-			'For later': { content: ['eggs', 'tomatoes'], open: false }
+			Ideas: { content: ['11', '12'], open: false },
+			'For later': { content: ['13', '14'], open: false }
 		}
 	};
 	let tabs = Object.keys(categories);
 	let activeTab = tabs[0];
-
 	let note = '';
 	function submitNote() {}
+
+  interface CheckBoxStates {
+    [key: string]: boolean;
+}
+
+const checkBoxStates: CheckBoxStates = {};
+
+Object.entries(categories).forEach(([categoryName, subcategories]) => {
+    Object.entries(subcategories).forEach(([subcategoryName, subcategory]) => {
+        subcategory.content.forEach(item => {
+            const uniqueKey = `${categoryName}_${subcategoryName}_${item}`;
+            checkBoxStates[uniqueKey] = false;
+        });
+    });
+});
+
+function handleCheckChange(e: CustomEvent) {
+    const isChecked = (e.target as HTMLInputElement).checked;
+    const category = e.detail.category;
+    const subcategory = e.detail.subcategory;
+    const item = e.detail.item;
+    const uniqueKey = `${category}_${subcategory}_${item}`;
+    checkBoxStates[uniqueKey] = isChecked;
+    localStorage.setItem(uniqueKey, isChecked.toString());
+    
+}
+
 </script>
 
 <div class="flex flex-col relative h-full">
@@ -46,12 +72,18 @@
 	</div>
 	<div class="accordion-container">
 		<Accordion>
-			{#each Object.keys(categories[activeTab]) as subcategoryName}
+			{#each Object.keys(categories[activeTab]) as subcategoryName (subcategoryName)}
 				<SubcategoryPanel
 					label={subcategoryName}
 					content={categories[activeTab][subcategoryName].content}
 					open={categories[activeTab][subcategoryName].open}
-				/>
+          activeTab={activeTab}
+          checkBoxStates={checkBoxStates}
+           
+     
+        
+          on:itemChanged={handleCheckChange} />
+				
 			{/each}
 		</Accordion>
 	</div>
