@@ -32,22 +32,22 @@
 	let activeTab = tabs[0];
 	let note = '';
 
-  interface CheckBoxStates {
-    [key: string]: boolean;
-}
+//   interface CheckBoxStates {
+//     [key: string]: boolean;
+// }
 
-const checkBoxStates: CheckBoxStates = {};
+// const checkBoxStates: CheckBoxStates = {};
 
-Object.entries(categories).forEach(([categoryName, subcategories]) => {
-    Object.entries(subcategories).forEach(([subcategoryName, subcategory]) => {
-        subcategory.content.forEach(item => {
-            const uniqueKey = `${categoryName}_${subcategoryName}_${item}`;
-            checkBoxStates[uniqueKey] = false;
-        });
-    });
-});
+// Object.entries(categories).forEach(([categoryName, subcategories]) => {
+//     Object.entries(subcategories).forEach(([subcategoryName, subcategory]) => {
+//         subcategory.content.forEach(item => {
+//             const uniqueKey = `${categoryName}_${subcategoryName}_${item}`;
+//             checkBoxStates[uniqueKey] = false;
+//         });
+//     });
+// });
 
-function handleCheckChange(e: CustomEvent) {
+/*function handleCheckChange(e: CustomEvent) {
     const isChecked = (e.target as HTMLInputElement).checked;
     const category = e.detail.category;
     const subcategory = e.detail.subcategory;
@@ -56,7 +56,7 @@ function handleCheckChange(e: CustomEvent) {
     checkBoxStates[uniqueKey] = isChecked;
     localStorage.setItem(uniqueKey, isChecked.toString());
     
-}
+}*/
 
 	let noteCopy = '';
 	const noteProperties = tweened(

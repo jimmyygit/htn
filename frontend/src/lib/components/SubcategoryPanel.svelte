@@ -7,7 +7,7 @@ import { createEventDispatcher } from 'svelte';
 import Dialog, { Title, Content as DiaContent, Actions } from '@smui/dialog';
 
 
-const dispatch = createEventDispatcher()
+// const dispatch = createEventDispatcher()
 
 export let label: string;
 export let open: boolean = false;
@@ -17,24 +17,24 @@ let modalOpen = false;
 
 
 export let activeTab: string;
-interface CheckBoxStates {
-    [key: string]: boolean;
-}
-export let checkBoxStates: CheckBoxStates;
+// interface CheckBoxStates {
+//     [key: string]: boolean;
+// }
+// export let checkBoxStates: CheckBoxStates;
 
-function handleClick() {
-	dispatch('itemChanged');
-}
+// function handleClick() {
+// 	dispatch('itemChanged');
+// }
 
 </script>
 
 <Panel bind:open variant="unelevated">
 <Header>
-	{label}
-	<IconButton slot="icon" toggle pressed={open}>
-		<Icon class="material-icons" on>expand_less</Icon>
-		<Icon class="material-icons">expand_more</Icon>
-	</IconButton>
+{label}
+<IconButton slot="icon" toggle pressed={open}>
+	<Icon class="material-icons" on>expand_less</Icon>
+	<Icon class="material-icons">expand_more</Icon>
+</IconButton>
 </Header>
 <Content>
 	{#if content.length == 0}
