@@ -17,6 +17,8 @@ origins = [
     "http://localhost:5173",
     "http://localhost:4173",
     "https://jotter-y4es.onrender.com",
+    "https://jotters.netlify.app",
+    "*",
 ]
 
 app.add_middleware(
@@ -66,7 +68,7 @@ async def categorize(category: Category):
     Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes. Assign this suggestion to a variable called the_suggestion
     The format of your answer should be: `the_category|the_suggestion`. Keep the overall answer VERY short, and do NOT explain your answer. MAKE SURE the_suggestion is a complete sentence, so don't end a suggestion with a preposition or a verb or 'a'."""
     response = co.generate(prompt=BASE_PROMPT)
-    return_values = response.generations[0].text.strip().split('|')
+    return_values = response.generations[0].text.strip().split("|")
     return_category = return_values[0]
     return_suggestion = return_values[1]
     return {"category": return_category, "suggestion": return_suggestion}
