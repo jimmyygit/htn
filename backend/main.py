@@ -44,9 +44,12 @@ class Category(BaseModel):
 @app.post("/categorize")
 async def categorize(category: Category):
     BASE_PROMPT = f"""
-    We have the following categories: [{", ".join(category.categories)}] for to-do list item tasks. 
-    Please return only one of the categories listed before. Trim spaces.
-    Which one of the above categories would best fit this item: {category.note}"""
+    We have the following categories: {", ".join(category.categories)}. Which of these categories would you classify the following message under: {category.note}.
+    WITH THE CATEGORY NOW DECIDED, assign it to a variable called the_category. 
+    Then, provide 1 very brief and very funny suggestion on how to accomplish the aforementioned message.
+    Make sure that suggestion is VERY funny, but not mean to anyone--they should be harmless jokes. Assign this suggestion to a variable called the_suggestion
+    The format of your answer should be: `[the_category][the_suggestion]`, including the square braces. 
+    Keep the overall answer VERY short, and do NOT explain your answer."""
     response = co.generate(prompt=BASE_PROMPT)
     return_category = response.generations[0].text.strip()
-    return {"message": return_category}
+    return {"category": return_category}
