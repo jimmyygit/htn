@@ -31,8 +31,20 @@
 	let activeTab = tabs[0];
 
 	let note = '';
-	const noteOffset = tweened({ x: 0, y: 0, scale: 1 }, { duration: 400, easing: cubicOut });
+	let noteCopy = '';
+	const noteProperties = tweened(
+		{ leftPercOffset: 0, topOffset: 0, scale: 1, opacity: 0 },
+		{ duration: 400, easing: cubicOut }
+	);
+
+	function sleep(ms: number) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
 	async function submitNote() {
+		noteCopy = note;
+		note = '';
+
 		const condensedCategories = [];
 		for (const category of Object.keys(categories)) {
 			for (const subcategory of Object.keys(categories[category])) {
@@ -40,8 +52,11 @@
 			}
 		}
 
+		noteProperties.set({ ...$noteProperties, topOffset: -70, leftPercOffset: 50, opacity: 1 });
+
 		// Perform API request and get category
 		const result = 'Personal_Goals';
+		await sleep(1000);
 		// console.log('submitting note...');
 		// const result = await fetch('https://htn.onrender.com/categorize', {
 		// 	method: 'POST',
@@ -50,7 +65,7 @@
 		// 	},
 		// 	body: JSON.stringify({
 		// 		categories: condensedCategories,
-		// 		note
+		// 		noteCopy
 		// 	})
 		// }).then((res) => {
 		// 	console.log('res!', res);
@@ -65,17 +80,22 @@
 
 		// Animate adding note
 		activeTab = categoryResult;
+		await sleep(100);
 
-		setTimeout(() => {
-			categories[categoryResult][subcategoryResult].open = true;
-			setTimeout(() => {
-				categories[categoryResult][subcategoryResult].content = [
-					...categories[categoryResult][subcategoryResult].content,
-					note
-				];
-				note = '';
-			}, 300);
-		}, 100);
+		noteProperties.set({ ...$noteProperties, topOffset: -350 });
+
+		categories[categoryResult][subcategoryResult].open = true;
+		await sleep(300);
+
+		categories[categoryResult][subcategoryResult].content = [
+			...categories[categoryResult][subcategoryResult].content,
+			noteCopy
+		];
+
+		noteProperties.set({ ...$noteProperties, opacity: 0 });
+		await sleep(400);
+
+		noteProperties.set({ leftPercOffset: 0, topOffset: 0, scale: 1, opacity: 0 });
 	}
 </script>
 
@@ -105,13 +125,18 @@
 	<div class="flex-1" />
 
 	<div class="relative p-4 flex items-baseline gap-2 bg-gray-100">
-		<!-- <div class="max-w-full absolute left-0 top-1/2 -translate-y-1/2">
+		{#if $noteProperties.opacity > 0}
 			<div
-				class="mx-2 py-4 px-2 rounded-xl text-white bg-[#3499ff] whitespace-nowrap text-ellipsis overflow-hidden"
+				style={`left: ${$noteProperties.leftPercOffset}%; transform: translate(-${$noteProperties.leftPercOffset}%, calc(-50% + ${$noteProperties.topOffset}px)) scale(${$noteProperties.scale}); opacity: ${$noteProperties.opacity}`}
+				class="z-30 max-w-full absolute left-0 top-1/2 -translate-y-1/2"
 			>
-				{note}
+				<div
+					class="mx-2 py-4 px-2 rounded-xl text-white bg-[#3499ff] whitespace-nowrap text-ellipsis overflow-hidden"
+				>
+					{noteCopy}
+				</div>
 			</div>
-		</div> -->
+		{/if}
 
 		<Input bind:value={note} class="solo-input" placeholder="Jot something down..." autofocus />
 		<Button disabled={note.length === 0} on:click={submitNote}>Submit</Button>
