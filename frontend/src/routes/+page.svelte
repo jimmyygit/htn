@@ -7,6 +7,8 @@
 	import SubcategoryPanel from '$lib/components/SubcategoryPanel.svelte';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
+	import CircularProgress from '@smui/circular-progress';
+	import 'svelte-material-ui/bare.css';
 
 	interface Subcategory {
 		[key: string]: { content: string[]; open: boolean };
@@ -166,6 +168,9 @@
 				>
 					{noteCopy}
 				</div>
+			</div>
+			<div class="flex justify-center items-center">
+				<CircularProgress style="height: 32px; width: 32px;" indeterminate />
 			</div>
 		{/if}
 
