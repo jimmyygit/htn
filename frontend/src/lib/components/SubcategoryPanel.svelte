@@ -7,6 +7,8 @@
 	import Dialog, { Title, Content as DiaContent, Actions } from '@smui/dialog';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
+	import CircularProgress from '@smui/circular-progress';
+	import 'svelte-material-ui/bare.css';
 
 	// const dispatch = createEventDispatcher()
 
@@ -15,6 +17,7 @@
 	export let content: any[] = [];
 	let suggestion: string = '';
 	let modalOpen = false;
+	let loading = false;
 
 	export let activeTab: string;
 	// interface CheckBoxStates {
@@ -28,6 +31,7 @@
 	);
 
 	async function handleClick(prompt: string) {
+		loading = true;
 		console.log('click');
 		const result = await fetch('https://htn.onrender.com/suggestion', {
 			method: 'POST',
@@ -42,6 +46,7 @@
 				return res.json();
 			})
 			.then(async (data) => {
+				loading = false;
 				console.log(data);
 				suggestion = data.suggestion;
 				suggestionProperties.set({
@@ -84,11 +89,14 @@
 				style={`left: ${$suggestionProperties.leftPercOffset}%; transform: translate(-${$suggestionProperties.leftPercOffset}%, calc(-50% + ${$suggestionProperties.topOffset}px)) scale(${$suggestionProperties.scale}); opacity: ${$suggestionProperties.opacity}`}
 				class="z-30 max-w-full absolute left-0 top-1/2 -translate-y-1/2"
 			>
-				<div
-					class="mx-2 py-4 px-2 rounded-xl text-white bg-[#e499ff]"
-				>
+				<div class="mx-2 py-4 px-2 rounded-xl text-white bg-[#e499ff]">
 					{suggestion}
 				</div>
+			</div>
+		{/if}
+		{#if loading}
+			<div class="flex justify-center items-center">
+				<CircularProgress style="height: 32px; width: 32px;" indeterminate />
 			</div>
 		{/if}
 
